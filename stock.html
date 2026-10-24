@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Blood stock{% endblock %}{% block heading %}Blood Stock Inventory{% endblock %}
+{% block content %}
+<div class="page-intro"><p>Overview of recorded units by blood group.</p></div>
+<div class="stock-grid">{% for s in stock %}<div class="stock-card"><div class="stock-top"><span class="blood-badge large">{{ s.blood_group }}</span><span class="stock-drop">✚</span></div><strong>{{ s.units_available }}</strong><span>units available in demo inventory</span><div class="stock-bar"><span style="width: {{ [s.units_available * 10, 100] | min }}%"></span></div></div>{% endfor %}</div>
+<section class="panel note-panel"><strong>Important:</strong> This is a classroom inventory demonstration, not a real-time clinical inventory. It does not track blood components, screening status, storage conditions or expiry dates.</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Donations{% endblock %}{% block heading %}Donation Records{% endblock %}
+{% block content %}
+<div class="page-intro"><p>Record donation history and update the demo inventory.</p></div>
+<section class="panel form-panel"><div class="panel-head"><div><h3>Record a donation</h3><p>Select a registered donor.</p></div></div>
+<form method="post" class="form-grid compact">
+<label>Donor *<select name="donor_id" required><option value="">Choose donor</option>{% for d in donors %}<option value="{{ d.donor_id }}">{{ d.full_name }} ({{ d.blood_group }})</option>{% endfor %}</select></label>
+<label>Donation date *<input type="date" name="donation_date" max="{{ today }}" value="{{ today }}" required></label>
+<label>Units *<input type="number" name="units" min="1" max="5" value="1" required></label>
+<div class="form-actions"><button class="btn primary" type="submit" {% if not donors %}disabled{% endif %}>Save donation</button></div>
+</form><p class="note">Demo only: the units entered are added to stock. In a real blood bank, qualified staff must verify collection, testing, components and expiry before stock is released.</p></section>
+<section class="panel"><div class="panel-head"><div><h3>Donation history</h3><p>All recorded donation events</p></div></div><div class="table-wrap"><table><thead><tr><th>Donation ID</th><th>Donor</th><th>Blood group</th><th>Date</th><th>Units</th></tr></thead><tbody>
+{% for d in donations %}<tr><td>#{{ d.donation_id }}</td><td><strong>{{ d.full_name }}</strong></td><td><span class="blood-badge">{{ d.blood_group }}</span></td><td>{{ d.donation_date }}</td><td>{{ d.units }}</td></tr>{% else %}<tr><td colspan="5" class="empty">No donation records yet.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

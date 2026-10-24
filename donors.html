@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Donors{% endblock %}{% block heading %}Donor Directory{% endblock %}
+{% block content %}
+<div class="page-intro"><p>Register and manage donor information.</p><a class="btn primary" href="{{ url_for('add_donor') }}">＋ Register donor</a></div>
+<section class="panel"><div class="table-wrap"><table><thead><tr><th>ID</th><th>Donor</th><th>Blood group</th><th>Age</th><th>Phone</th><th>City</th><th>Action</th></tr></thead><tbody>
+{% for d in donors %}<tr><td>#{{ d.donor_id }}</td><td><strong>{{ d.full_name }}</strong><small class="cell-sub">{{ d.email or 'No email added' }}</small></td><td><span class="blood-badge">{{ d.blood_group }}</span></td><td>{{ d.age }}</td><td>{{ d.phone }}</td><td>{{ d.city }}</td><td><form method="post" action="{{ url_for('delete_donor', donor_id=d.donor_id) }}" onsubmit="return confirm('Delete this donor?')"><button class="btn small danger" type="submit">Delete</button></form></td></tr>
+{% else %}<tr><td colspan="7" class="empty">No donors yet. Register your first sample donor.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

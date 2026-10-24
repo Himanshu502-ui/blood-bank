@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}BloodCare{% endblock %} | Blood Bank</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-icon">✚</span><div><strong>BloodCare</strong><small>Blood Bank System</small></div></div>
+    <nav>
+      <a href="{{ url_for('dashboard') }}">▦ &nbsp; Dashboard</a>
+      <a href="{{ url_for('donors') }}">♡ &nbsp; Donors</a>
+      <a href="{{ url_for('donations') }}">＋ &nbsp; Donations</a>
+      <a href="{{ url_for('stock_page') }}">▤ &nbsp; Blood Stock</a>
+      <a href="{{ url_for('requests_page') }}">⇄ &nbsp; Blood Requests</a>
+    </nav>
+    <div class="sidebar-note">DBMS Assignment<br><small>Educational demo project</small></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><span class="eyebrow">BLOOD BANK MANAGEMENT</span><h1>{% block heading %}Dashboard{% endblock %}</h1></div><div class="top-pill"><span class="dot"></span> Demo system</div></header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}{% for category, message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}{% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+    <footer>BloodCare · DBMS assignment · Use sample data only</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Register donor{% endblock %}{% block heading %}Register a donor{% endblock %}
+{% block content %}
+<div class="form-layout"><section class="panel form-panel"><div class="panel-head"><div><h3>Donor information</h3><p>Fields marked * are required.</p></div></div>
+<form method="post" class="form-grid">
+  <label>Full name *<input name="full_name" required maxlength="100" placeholder="e.g. Rahul Sharma"></label>
+  <label>Age *<input type="number" name="age" min="18" max="65" required placeholder="18–65"></label>
+  <label>Gender *<select name="gender" required><option value="">Select gender</option><option>Female</option><option>Male</option><option>Other</option></select></label>
+  <label>Blood group *<select name="blood_group" required><option value="">Select blood group</option>{% for b in ['A+','A-','B+','B-','AB+','AB-','O+','O-'] %}<option>{{ b }}</option>{% endfor %}</select></label>
+  <label>Phone number *<input name="phone" required maxlength="15" placeholder="Contact number"></label>
+  <label>City *<input name="city" required maxlength="80" placeholder="City"></label>
+  <label class="full">Email address<input type="email" name="email" maxlength="120" placeholder="name@example.com"></label>
+  <div class="form-actions full"><a class="btn secondary" href="{{ url_for('donors') }}">Cancel</a><button class="btn primary" type="submit">Save donor</button></div>
+</form></section><aside class="info-card"><div class="info-symbol">♡</div><h3>Donor data matters</h3><p>Use fictional sample information for your assignment. Real donor registration requires appropriate consent, privacy protection and professional eligibility screening.</p></aside></div>
+{% endblock %}

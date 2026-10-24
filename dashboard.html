@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block heading %}Dashboard{% endblock %}
+{% block content %}
+<section class="welcome"><div><span class="eyebrow light">WELCOME BACK</span><h2>Every donation can make a difference.</h2><p>Manage donors, donations, inventory and blood requests in one place.</p></div><div class="welcome-mark">✚</div></section>
+<section class="stats">
+  <div class="stat-card"><div class="stat-icon red">♡</div><span>Registered donors</span><strong>{{ stats.donors }}</strong><small>People in donor directory</small></div>
+  <div class="stat-card"><div class="stat-icon blue">＋</div><span>Donations recorded</span><strong>{{ stats.donations }}</strong><small>Donation history entries</small></div>
+  <div class="stat-card"><div class="stat-icon orange">⇄</div><span>Pending requests</span><strong>{{ stats.requests }}</strong><small>Awaiting review</small></div>
+  <div class="stat-card"><div class="stat-icon green">▤</div><span>Total stock units</span><strong>{{ stats.units }}</strong><small>Across all blood groups</small></div>
+</section>
+<section class="two-col">
+  <div class="panel"><div class="panel-head"><div><h3>Blood stock overview</h3><p>Current recorded units by blood group</p></div><a class="text-link" href="{{ url_for('stock_page') }}">View all →</a></div>
+    <div class="blood-grid">{% for item in stock %}<div class="blood-tile"><span>{{ item.blood_group }}</span><strong>{{ item.units_available }}</strong><small>units</small></div>{% endfor %}</div>
+  </div>
+  <div class="panel"><div class="panel-head"><div><h3>Quick actions</h3><p>Common tasks</p></div></div>
+    <a class="quick-action" href="{{ url_for('add_donor') }}"><span class="qa-icon">♡</span><span><strong>Register a donor</strong><small>Add a donor to the database</small></span><b>→</b></a>
+    <a class="quick-action" href="{{ url_for('donations') }}"><span class="qa-icon">＋</span><span><strong>Record donation</strong><small>Log a donation and update stock</small></span><b>→</b></a>
+    <a class="quick-action" href="{{ url_for('requests_page') }}"><span class="qa-icon">⇄</span><span><strong>Manage requests</strong><small>Review blood requests</small></span><b>→</b></a>
+  </div>
+</section>
+<section class="panel"><div class="panel-head"><div><h3>Recent donations</h3><p>Latest donation records</p></div><a class="text-link" href="{{ url_for('donations') }}">All donations →</a></div>
+<div class="table-wrap"><table><thead><tr><th>Donor</th><th>Blood group</th><th>Date</th><th>Units</th></tr></thead><tbody>
+{% for row in recent %}<tr><td><strong>{{ row.full_name }}</strong></td><td><span class="blood-badge">{{ row.blood_group }}</span></td><td>{{ row.donation_date }}</td><td>{{ row.units }}</td></tr>{% else %}<tr><td colspan="4" class="empty">No donations recorded yet. Record a donation to see it here.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

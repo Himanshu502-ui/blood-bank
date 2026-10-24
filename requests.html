@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Blood requests{% endblock %}{% block heading %}Blood Requests{% endblock %}
+{% block content %}
+<div class="page-intro"><p>Submit requests and track their status.</p></div>
+<section class="panel form-panel"><div class="panel-head"><div><h3>New blood request</h3><p>Enter the requester and required blood group.</p></div></div>
+<form method="post" class="form-grid">
+<label>Requester name *<input name="requester_name" required maxlength="100" placeholder="Patient or contact name"></label>
+<label>Contact phone *<input name="contact_phone" required maxlength="15" placeholder="Phone number"></label>
+<label>Blood group *<select name="blood_group" required><option value="">Select blood group</option>{% for b in ['A+','A-','B+','B-','AB+','AB-','O+','O-'] %}<option>{{ b }}</option>{% endfor %}</select></label>
+<label>Units needed *<input type="number" name="units_needed" min="1" max="100" required value="1"></label>
+<label class="full">Hospital / organization<input name="hospital" maxlength="120" placeholder="Hospital or organization name"></label>
+<label class="full">Notes<textarea name="notes" maxlength="500" rows="2" placeholder="Optional notes"></textarea></label>
+<div class="form-actions full"><button class="btn primary" type="submit">Submit request</button></div>
+</form></section>
+<section class="panel"><div class="panel-head"><div><h3>Request register</h3><p>Update the status as a request is reviewed.</p></div></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Requester</th><th>Blood group</th><th>Units</th><th>Hospital</th><th>Status</th><th>Update</th></tr></thead><tbody>
+{% for r in requests %}<tr><td>#{{ r.request_id }}</td><td><strong>{{ r.requester_name }}</strong><small class="cell-sub">{{ r.contact_phone }}</small></td><td><span class="blood-badge">{{ r.blood_group }}</span></td><td>{{ r.units_needed }}</td><td>{{ r.hospital or '—' }}</td><td><span class="status {{ r.status|lower }}">{{ r.status }}</span></td><td><form class="inline-form" method="post" action="{{ url_for('update_request_status', request_id=r.request_id) }}"><select name="status" aria-label="Request status">{% for s in ['Pending','Approved','Fulfilled','Rejected'] %}<option {% if r.status == s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select><button class="btn small primary" type="submit">Save</button></form></td></tr>
+{% else %}<tr><td colspan="7" class="empty">No requests submitted yet.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}
